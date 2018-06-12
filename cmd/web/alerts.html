@@ -1,0 +1,63 @@
+<html>
+<head>
+	<title>simmon - simple monitoring</title>
+	<meta http-equiv="refresh" content="15">
+	<link href="/static/simmon.css" rel="stylesheet" type="text/css" media="all">
+	<script src="static/jquery-3.3.1.min.js"></script>
+	<script src="/static/simmon.js"></script>
+</head>
+<body>
+	<h2>simmon - simple monitoring</h2>
+	
+	<h2>Agents</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Agent Name</th>
+				<th>Agent Version</th>
+				<th>Address</th>
+				<th>Online State</th>
+				<th>Last Heartbeat</th>
+			</tr>
+		</thead>
+
+		{{range .Agents}}
+			<tr class="agent">
+				<td>{{.Name}}</td>
+				<td>{{.Version}}</td>
+				<td>{{.Address}}</td>
+				<td>{{.Alive}}</td>
+				<td>{{.Last}}</td>
+			</tr>
+		{{end}}
+	
+	</table>
+	
+	<h2>Alerts</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Agent Name</th>
+				<th>Alert Type</th>
+				<th>Alert Message</th>
+				<th>Alert Date</th>
+				<th>Alert Level</th>
+				<th>Alert Value</th>
+			</tr>
+		</thead>
+
+		{{range .Alerts}}
+			<tr class="alert">
+				<td>{{.Agent}}</td>
+				<td>{{.QoSType}}</td>
+				<td>{{.Msg}}</td>
+				<td>{{.Date}}</td>
+				<td>{{.AlertLevel}}</td>
+				<td>{{.AlertValue}}</td>
+			</tr>
+		{{end}}
+
+	</table>
+
+</body>
+</html>

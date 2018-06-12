@@ -1,0 +1,23 @@
+
+table {
+	
+}
+
+thead {
+	display: table-header-group;
+}
+
+tr {
+}
+
+th, td {
+	padding-left: 30px;
+	padding-right: 30px;
+	text-align: left;
+	border-bottom: 1px solid white;
+}
+
+body {
+
+}
+

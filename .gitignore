@@ -1,0 +1,4 @@
+./cmd/node/simmon-node
+./cmd/node/simmon-agent
+./cmd/web/simmon-web
+
