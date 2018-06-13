@@ -24,7 +24,10 @@ func addAlert(aName string, qType string, q *QoS) int {
 	Alerts[key] = q
 	AlertLock.Unlock()
 
-	return 0
+	log.Println("calling writeAlert(q) for")
+	log.Println(q)
+
+	return writeAlert(q)
 }
 
 func delAlert(aName string, qType string) int {
@@ -54,26 +57,26 @@ func doClearAlert(aName string, qType string) int {
 }
 
 func handleHeartbeatAlert(a *Agent) int {
-	log.Println("throwing heartbeat alert for " + a.Name)
 	a.markOffline()
 
 	q := QoS {
-		AgentId: "agent-uuid-goes-here",
-		Date: time.Now().String(),
-		QoSType: "HEARTBEAT",
-		Msg: "HEARTBEAT",
 		Alert: true,
 		AlertLevel: "CRITICAL",
-		AlertValue: "",
+		AlertValue: "Heartbeat Alert",
 		Agent: a.Name,
+		AgentAddress: a.Address,
+		AgentId: a.Name,
+		AgentVersion: a.Version,
+		HeartbeatThreshold: a.HeartbeatThreshold,
+		Date: time.Now().String(),
+		Msg: "HEARTBEAT",
+		QoSType: "HEARTBEAT",
 	}
 
 	return addAlert(q.Agent, q.QoSType, &q)
 }
 
 func (a *Agent) clearHeartbeatAlert() int {
-	log.Println("clearing heartbeat alert for " + a.Name)
-
 	a.markOnline()
 	return doClearAlert(a.Name, "HEARTBEAT")
 }

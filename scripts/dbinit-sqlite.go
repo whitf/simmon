@@ -31,6 +31,7 @@ var c Config
 
 const (
 	CREATE_QOS_TABLE = "CREATE TABLE IF NOT EXISTS qos(alert BOOLEAN, alertLevel TEXT, alertValue TEXT, agent TEXT, agentAddress TEXT, agentId TEXT, agentVersion TEXT, heartbeatThreshold FLOAT, date TEXT, msg TEXT, qosType TEXT)"
+	CREATE_ALERT_TABLE = "CREATE TABLE IF NOT EXISTS alert(alert BOOLEAN, alertLevel TEXT, alertValue TEXT, agent TEXT, agentAddress TEXT, agentId TEXT, agentVersion TEXT, heartbeatThreshold FLOAT, date TEXT, msg TEXT, qosType TEXT, deleted BOOLEAN)"
 )
 
 func doReadConfig(cfile string) {
@@ -66,6 +67,11 @@ func main() {
 	fmt.Println("creating QoS table...")
 	statement, _ := database.Prepare(CREATE_QOS_TABLE)
 	statement.Exec()
+
+	fmt.Println("creating alert table...")
+	statement, _ = database.Prepare(CREATE_ALERT_TABLE)
+	statement.Exec()
+
 	fmt.Println(" done")
 
 }

@@ -74,9 +74,10 @@ func handleMonControl(conn net.Conn) int {
 		log.Println("marking agent " + q.Agent + " online")
 
 		a := Agent {
-			Address: conn.RemoteAddr().String(),
 			Alive: true,
+			Address: conn.RemoteAddr().String(),
 			HeartbeatThreshold: 30.0,
+			Id: q.Agent,
 			Last: time.Now(),
 			Name: q.Agent,
 			Version: q.AgentVersion,

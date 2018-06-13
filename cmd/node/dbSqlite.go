@@ -46,15 +46,38 @@ func removeAgentSqlite(a *Agent) int {
 }
 
 func writeAlertSqlite(q *QoS) int {
+	var stmt = "SELECT COUNT(*) AS count FROM alert WHERE agent=\"" + q.Agent + "\" AND qosType=\"" + q.QoSType + "\" AND deleted=0"
+	statement, _ := db.Prepare(stmt)
+
+	var count = 0
+	_ = statement.QueryRow().Scan(&count)
+
+	if count < 1 {
+		stmt = "INSERT INTO alert (alert, alertLevel, alertValue, agent, agentAddress, agentId, agentVersion, heartbeatThreshold, date, msg, qosType, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"	
+		statement, _ = db.Prepare(stmt)
+		statement.Exec(q.Alert, q.AlertLevel, q.AlertValue, q.Agent, q.AgentAddress, q.AgentId, q.AgentVersion, q.HeartbeatThreshold, q.Date, q.Msg, q.QoSType, false)
+	}
+	
 	return 0
 }
 
-func clearDbAlertSqlite(a string, q string) int {
+func clearDbAlertSqlite(aName string, qType string) int {
+	var stmt = "UPDATE alert SET deleted=true WHERE agent=\"" + aName + "\" AND qosType=\"" + qType + "\""
+
+	statement, _ := db.Prepare(stmt)
+	statement.Exec()
+
 	return 0
 }
 
 func loadAlertsSqlite() map[string]*QoS {
 	alertsFromDatabase := make(map[string]*QoS)
+
+	//var stmt = "SELECT "
+
+
+
+
 	return alertsFromDatabase
 }
 
